@@ -1,0 +1,386 @@
+body 
+{
+    background: #eee;
+}
+
+
+
+body > #main 
+{
+    width: 400px;
+    height: 213px;
+    padding: 20px 25px 20px 20px;
+    border-radius: 15px;
+    background: #0078B7;
+    margin: 20px auto;
+    color: white;
+}
+
+@media (max-width: 500px) {
+    body > #main 
+    {
+        width: 280px;
+    }
+}
+
+
+
+body > #main > .input
+{
+    font-size: 25px;
+    font-family: sans-serif;
+    width: 95%;
+    margin: 5px auto;
+    padding: 6px 11px;
+    height: 30px;
+    border: none;
+    border-radius: 13px;
+}
+
+
+body > #main > #textCard
+{
+    width: 95%;
+    margin: 5px auto 15px;
+    padding: 10px 10px;
+    height: 230px;
+    border: none;
+    border-radius: 13px;
+}
+
+
+#photoLabel
+{
+    font-size: 20px;
+    font-family: sans-serif;
+    font-weight: bold;
+    margin: auto;
+    padding: 10px;
+    border: none;
+    border-radius: 13px;
+    background: white;
+    color: black;
+    cursor: pointer;
+}
+
+
+#addCard
+{
+    font-size: 22px;
+    font-weight: bold;
+    width: 100%;
+    margin: auto;
+    padding: 10px;
+    border: none;
+    border-radius: 13px;
+    background: white;
+    color: black;
+    cursor: pointer;
+}
+
+
+
+
+/*/////////////////////////////////////////////////////*/
+
+/*start cardImg*/
+.card
+{
+  overflow: hidden;
+}
+
+.CardImgDad
+{
+    background: black;
+    overflow: hidden;
+    height: 100%;
+}
+
+.CardImgDad > .cardImg
+{
+  max-width: 100%;
+  transition: var(--main-transition);
+  width: 100%;
+  margin: auto;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/*end cardImg*/
+
+
+
+#dadOfCards
+{
+    width: 80%;
+    margin: auto;
+}
+
+
+
+
+.card
+{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+}
+
+.card img
+{
+    width: 100%;
+    border-top-left-radius: calc(0.25rem - 1px);
+    border-top-right-radius: calc(0.25rem - 1px);
+}
+
+.card .card-body 
+{
+    flex: 1 1 auto;
+    padding: 1rem 1rem;
+    text-align: center;
+}
+
+.card > .card-body > .card-title 
+{
+    margin-bottom: 0.5rem;
+    font-size: 28px;
+    font-family: sans-serif;
+    color: var(--main-color) !important;
+}
+
+.card > .card-body > p
+{
+    font-size: 22px;
+}
+
+.card > .card-body > p > .price
+{
+    font-size: 28px;
+}
+
+.price {
+    font-size: 20px;
+    font-family: sans-serif;
+    font-weight: bold;
+    color: green;
+}
+
+
+#btnForDel {
+    display: block !important;
+    font-size: 22px;
+    font-family: sans-serif;
+    color: red;
+    border: 2px solid red;
+    border-radius: 6px;
+    padding: 10px 5px;
+    text-decoration: none;
+    cursor: pointer;
+    user-select: none;
+    background-color: transparent;
+    width: 6rem;
+    margin: 0px auto 15px;
+    transition: 0.5s ease;
+}
+
+#btnForDel:hover
+{
+    color: white;
+    background: red;
+}
+
+.btnForAddToCard
+{
+    display: none !important;
+}
+
+
+
+
+
+
+
+
+
+
+/* start Orders Page */
+
+.ordersDad
+{
+    width: 100%;
+    margin: auto;
+}
+
+.ordersDad > .order
+{
+    width: 60%;
+    max-width: 800px;
+    min-width: 300px;
+    margin: auto;
+    background: #0078B7;
+    color: white;
+    padding: 5px 10px;
+    margin: 20px auto;
+    border-radius: 6px;
+    font-size: 22px;
+    font-family: sans-serif;
+    overflow: hidden;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+@media (max-width: 600px) {
+    .ordersDad > .order
+    {
+        width: 90%;
+        margin: 20px auto;
+    }
+}
+
+.ordersDad > .order > .orderNameAndPhone > p
+{
+    background: white;
+    color: #0078B7;
+    border-radius: 6px;
+    padding: 5px;
+    font-weight: bold;
+    text-align: center;
+    margin: 5px;
+}
+
+.addressDad
+{
+    display: flex;
+    align-items: center;
+}
+
+.addressDad > .orderPersonAddres
+{
+    background: white;
+    color: #0078B7;
+    border-radius: 6px;
+    padding: 5px;
+    font-weight: bold;
+    text-align: center;
+    margin: 5px;
+}
+
+.orederBtns
+{
+    display: flex;
+    align-items: center;
+    margin: 0px 5px;
+}
+
+.orederBtns > .orderView
+{
+    font-size: 15px;
+    background: white;
+    border: none;
+    border-radius: 6px;
+    color: #0078B7;
+    font-weight: bold;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.orederBtns > .removeOrder
+{
+    font-size: 15px;
+    background: rgb(194, 33, 33);
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-weight: bold;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin: 0px 10px;
+}
+
+/* End Orders Page */
+
+
+
+/*start view order page*/
+*
+{
+    padding: 0;
+    margin: 0;
+}
+
+.orderPageDad
+{
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(10, 10, 10, 0.25);
+    z-index: 10;
+}
+
+.orderPageDad > .HideOrderPage
+{
+    position: absolute;
+    top: 30px;
+    right: 15px;
+    transform: translate(-50%, -50%);
+    padding: 5px 10px;
+    background: red;
+    color: white;
+    font-family: sans-serif;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.orderPageDad > .orderPage
+{
+    background: white;
+    width: 90%;
+    max-width: 1200px;
+    height: 90%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow-y: scroll;
+    border-radius: 6px 0px 0px 6px;
+    padding: 20px;
+}
+
+.orderPageDad > .orderPage > table 
+{
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+  
+td, th {
+  border: 1px solid #b9b8b8;
+  text-align: left;
+  padding: 8px;
+  font-size: 18px;
+}
+
+/*end view order page*/
+
+
+
+
+
+
+
+

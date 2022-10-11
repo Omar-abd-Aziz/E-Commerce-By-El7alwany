@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="add-card.css">
+    <link rel="stylesheet" href="scss.css">
+    <!-- <link rel="stylesheet" href="bootstrap-fils/css/bootstrap.css"> -->
+    <!-- start icon -->
+    <link rel="shortcut icon" href="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/000000/external-dashboard-marketing-technology-flaticons-lineal-color-flat-icons-2.png">
+    <!-- end icon -->
+  </head>
+  <body>
+
+    <br><br>
+
+
+    <!--start div to view order for every one-->
+    <div class="orderPageDad">
+        <div class="orderPage">
+            
+            <table dir="rtl">
+                <tr>
+                  <th class="PersonName">عمر عبد العزيز</th>
+                  <th>Name</th>
+                </tr>
+                <tr>
+                  <th class="PersonPhone">01111881968</th>
+                  <th>Phone Number</th>
+                </tr>
+                <tr>
+                  <th class="PersonAddress">Centro comercial Moctezuma</th>
+                  <th>Address</th>
+                </tr>
+                <tr>
+                    <th class="TotalPrise">0</th>
+                    <th>TotalPrise</th>
+                </tr>
+                <tr>
+                    <th class="PersonRoll">0</th>
+                    <th>Order Roll</th>
+                </tr>
+            </table>
+
+            <br><br>
+
+            <table dir="rtl">
+                <tr>
+                  <th>Product</th>
+                  <th>Number</th>
+                </tr>
+                <tbody class="ProductAndNumberSpan">
+
+                </tbody>
+            </table>
+
+
+        </div>
+        <span class="HideOrderPage">X</span>
+    </div>
+    <!--end div to view order for every one-->
+    
+    <center><h1 style="font-family: sans-serif;">Orders</h1></center>
+    <br>
+    <!-- start div to get order-->
+    <div class="mainOrder">
+        <div class="ordersDad">
+
+        </div>
+    </div>
+    <!--end div to get order-->
+
+    <br><br>
+    <hr>
+    <br><br>
+    <!-- start main div for add card -->
+    <center><h1 style="font-family: sans-serif;">Add Cards</h1></center>
+    <div id="main">
+
+        <input type="text" id="nameCard" placeholder="Name" class="input">
+        <input type="number" id="priceOfCard" placeholder="Price" class="input">
+        <br>
+        <br>
+        <label for="photo" id="photoLabel">Img</label>
+        <input type="file" id="photo" style="display: none;"/>
+        <br>
+        <br>
+        <button id="addCard">Add Card</button>
+  
+    </div>
+    <!-- end main div for add card -->
+
+
+
+    <br><br><br><br>
+
+    <!-- Start Div For Cards -->
+    <div id="dadOfCards" class="grid">
+
+    </div>
+    <!-- End Div For Cards -->
+
+    <br><br><br><br>
+
+    <div class="dadOfHidePage" style="display: none;"></div>
+
+
+
+  </body>
+
+
+
+
+
+  <!--0-->
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-database.js"></script>
+  <script type="module">
+
+    /*1*/
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.8.2/firebase-app.js';
+    import { getFirestore, collection, getDocs,setDoc,doc, deleteDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/9.8.2/firebase-firestore.js';
+
+    var firebaseConfig = {
+        apiKey: "AIzaSyCWjmq1toHvtKRKnn8jWztMsVUkqdAcYRg",
+        authDomain: "chat-1c669.firebaseapp.com",
+        databaseURL: "https://chat-1c669-default-rtdb.firebaseio.com",
+        projectId: "chat-1c669",
+        storageBucket: "chat-1c669.appspot.com",
+        messagingSenderId: "1074346414770",
+        appId: "1:1074346414770:web:acfb01204f7e738c892fab",
+        measurementId: "G-BN24MR1XMD"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    let X;
+    async function getCit(db,X) {
+    const citiesCol = collection(db,`${X}`);
+    const citySnapshot = await getDocs(citiesCol);
+    const cityList = citySnapshot.docs.map(doc => doc.data());
+    return cityList;
+    }
+    /*1*/
+
+
+    /*2*/
+    let addCard = document.querySelector("#addCard");
+    addCard.addEventListener("click",()=>{
+
+        if(document.querySelector("#nameCard").value!=""&&
+        document.querySelector("#priceOfCard").value!="")
+        {
+        uploadImage()  /* => (3) */
+        Swal.fire(
+        'Good job!',
+        'تم اضافة المنتج',
+        'success'
+        )
+        } else {
+            Swal.fire('يجب اضافة اسم و سعر و صورة المنتج')
+        }
+
+    })
+    /*2*/
+
+
+    /*3*/
+    async function uploadImage() {
+
+    const ref = firebase.storage().ref();
+    const file = document.querySelector("#photo").files[0];
+    const name = +new Date() + "-" + file.name;
+    const metadata = {
+    contentType: file.type
+    };
+    const task = ref.child(name).put(file, metadata);
+    task
+    .then(async snapshot => snapshot.ref.getDownloadURL())
+    .then(async url => {
+
+        save(url);
+
+    })
+    .catch(console.error);
+    }
+    /*3*/
+
+
+    /*4*/
+    async function save(url)
+    {
+        let nameCard = document.querySelector("#nameCard").value
+        let priceOfCard = document.querySelector("#priceOfCard").value
+
+        document.querySelector("#nameCard").value=''
+        document.querySelector("#priceOfCard").value=''
+
+
+        /*start get*/
+        getCit(db, 'e-commerce').then(async (e) => {
+        
+            let G = e;
+            let H = G[0].cardsDad;
+            H +=`
+
+            <div class="card">
+                <div class="CardImgDad">
+                    <img src="${url}" class="card-img-top cardImg">
+                </div>
+                
+                <div class="card-body">
+                    <h1 class="card-title text-color cardName">${nameCard}</h1>
+                    <p class="priceDad">
+                        <span class="price">${priceOfCard}</span>
+                        <span>Eg</span>
+                    </p>
+                    <div class="btn btn-outline-success btnForAddToCard"> طلب </div>
+                </div>
+                <button id="btnForDel" style="display: none;">remove</button>
+            </div>
+            
+            `;
+
+            /*start post*/
+            setDoc(doc(db, "e-commerce", 'dad'), {
+                cardsDad: `${H}`,
+            });
+            /*end post*/
+
+            getCards()  /* => (5)*/
+
+        })
+
+    }
+    /*4*/
+
+
+    /*5*/
+    function getCards()
+    {
+
+        getCit(db, 'e-commerce').then(async (e) => {
+        
+
+            let G = e;
+            let H = G[0].cardsDad;
+
+            document.querySelector("#dadOfCards").innerHTML = H
+
+            let x = Array.from(document.querySelectorAll("#btnForDel")).forEach(button=>button.addEventListener("click",()=>{
+
+                Swal.fire(
+                'Good job!',
+                'تم حذف المنتج',
+                'success'
+                )
+
+                let S =event.srcElement.parentNode
+                console.log(S)
+                S.remove()
+
+                /*save*/
+                let dad = document.querySelector("#dadOfCards").innerHTML
+                setDoc(doc(db, "e-commerce", 'dad'), {
+                cardsDad: `${dad}`,
+                });
+                /*save*/
+
+            }))
+
+        })
+    }
+    /*5*/
+
+    /*6*/
+    getCards()
+    /*6*/
+
+
+    /*4*/ /*start get orders from firestore database*/
+    Select_AllData()
+    setInterval(Select_AllData, 1000)
+    // setInterval(Select_AllData, 10000)
+    function Select_AllData()
+    {
+        getCit(db, 'orders').then(async (e) => {
+            document.querySelector(".ordersDad").innerHTML=""
+            let ordersArray = []
+            e.forEach(e=>{
+                ordersArray.push(e)
+            })
+
+            var res = ordersArray.sort((a, b) => b.time-a.time);
+            res.forEach(e=>{
+                document.querySelector(".ordersDad").innerHTML+=
+                `
+                <div class="order" data-name="${e.name}" data-phone="${e.phone}" data-address="${e.address}" data-time="${e.time}" data-order='${e.order}'>
+                    <div class="orderNameAndPhone">
+                        <p class="orderPersonName">${e.name}</p>
+                        <p class="orderPersonPhone">${e.phone}</p>
+                    </div>
+                    <div class="orederBtns">
+                        <button class="orderView">View</button>
+                        <button class="removeOrder">X</button>
+                    </div>
+                </div>
+                `
+            })
+        })
+    }
+    /*4*/ /* end get orders from firestore database*/
+
+    function cs(e){return document.querySelector(e)}
+
+    /*5*/ /*start view page*/
+    window.onclick=e=>{
+
+        /*srart btn View*/
+        if(e.srcElement.classList.value=="orderView")
+        {
+            var parent = e.srcElement.parentNode.parentNode
+            var name = parent.dataset.name
+            var phone = parent.dataset.phone
+            var address = parent.dataset.address
+            var time = parent.dataset.time
+            
+            cs(".dadOfHidePage").innerHTML=parent.dataset.order
+            var arrayOfOrderNumber=[]
+            var arrayOfOrderProduct=[]
+
+            document.querySelectorAll(".quantityOfCardDad").forEach(e=>{
+                if(e.childNodes[3]!=undefined)
+                {
+                    var num = e.childNodes[3].innerText
+                    arrayOfOrderNumber.push(num)
+                }
+            })
+
+            document.querySelectorAll(".cartDiv").forEach(e=>{
+                if(e.dataset.name!=undefined)
+                {
+                    var product = e.dataset.name
+                    arrayOfOrderProduct.push(product)
+                }
+            })
+
+
+            cs(".ProductAndNumberSpan").innerHTML=''
+            for(var i=0; i<arrayOfOrderNumber.length; i++)
+            {
+                cs(".ProductAndNumberSpan").innerHTML+=`
+                <tr>
+                    <th>${arrayOfOrderProduct[i]}</th>
+                    <th>${arrayOfOrderNumber[i]}</th>
+                </tr>
+                `
+            }
+
+            cs(".PersonName").innerText=name
+            cs(".PersonPhone").innerText=phone
+            cs(".PersonAddress").innerText=address
+            cs(".TotalPrise").innerHTML=`${cs(".totalPrice").textContent + " جنية"}`
+            cs(".PersonRoll").innerText=(+reversedNum(time).toString().slice(0,4))
+            cs(".orderPageDad").style.display="block"
+        }
+        /*end btn view*/
+
+
+
+        /*start btn delet ref*/
+        if(e.srcElement.classList.value=="removeOrder")
+        {
+            var roll = e.srcElement.parentNode.parentNode.dataset.time
+
+            getDocs(collection(db,"orders")).then(snap=>{
+                snap.docs.forEach(el=>{
+                    var time = el._document.data.value.mapValue.fields.time.integerValue
+                    
+                    if(parseInt(time)==parseInt(roll))
+                    {
+                        var ref = doc(db,"orders", el.id)
+                        deleteDoc(ref)
+                        e.srcElement.parentNode.parentNode.remove()
+                    }
+                })
+            })
+        }
+        /*end btn delet ref*/
+
+
+    }
+
+    /**/
+    function reversedNum(num) {
+        return(
+            parseFloat(
+            num.toString()
+            .split('')
+            .reverse()
+            .join('')
+            ) * Math.sign(num)
+        )                 
+    }
+    /**/
+
+
+
+    document.querySelector(".HideOrderPage").addEventListener("click", (e)=>{
+        e.srcElement.parentNode.style.display="none"
+    })
+    /*5*/ /*end view page*/
+
+  </script>
+</html>
